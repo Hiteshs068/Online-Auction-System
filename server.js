@@ -797,8 +797,8 @@ app.get("/applied-status", async (req, res) => {
       const { auctionId } = req.query;
       const email = req.session.email;
 
-      if (!auctionId || !email) {
-          return res.status(400).json({ success: false, message: "Missing data" });
+      if (!auctionId || auctionId === "null" || !mongoose.Types.ObjectId.isValid(auctionId) || !email) {
+          return res.status(400).json({ success: false, message: "Invalid or missing data" });
       }
 
       const auction = await Auction.findById(auctionId);
